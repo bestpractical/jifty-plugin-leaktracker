@@ -12,6 +12,7 @@ BEGIN {
 use Devel::Events::Handler::ObjectTracker;
 use Devel::Events::Generator::Objects;
 use Devel::Size 'total_size';
+use Template::Declare::Tags;
 
 our $VERSION = 0.01;
 
@@ -41,6 +42,24 @@ sub inspect_after_request {
         size  => $size,
         leaks => \@leaks,
     },
+}
+
+sub inspect_render_summary {
+    my $self  = shift;
+    my $leaks = shift;
+
+    return "Leaked $leaks->{size} bytes";
+}
+
+sub inspect_render_analysis {
+    my $self = shift;
+    my $leaks = shift;
+
+    ul {
+        for (@{ $leaks->{leaks} }) {
+            li { $_ }
+        }
+    }
 }
 
 1;
