@@ -16,6 +16,8 @@ use Template::Declare::Tags;
 
 our $VERSION = 0.01;
 
+sub prereq_plugins { 'RequestInspector' }
+
 sub inspect_before_request {
     my $self = shift;
 
